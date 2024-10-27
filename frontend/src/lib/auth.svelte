@@ -4,31 +4,29 @@
 </script>
 
 <main>
-
     <body>
         <div class="main">  	
             <input type="checkbox" id="chk" aria-hidden="true" class="hidden">
     
-                <div class="signup">
-                    <form action="?/register" method="post">
-                        <label for="chk" aria-hidden="true" class="decoration-white text-[2.3em] justify-center">{sup}</label>
-                        <input type="text" name="username" placeholder="Username" required />
-                        <input type="email" name="email" placeholder="Email" required />
-                        <input type="password" name="password" placeholder="Password" required />
-                        <input type="password" name="Cpswd" placeholder="Confirm-Password" required />
-                        <button>{sup}</button>
-                    </form>
-                </div>
-    
-                <div class="login">
-                    <form action="?/login" method="post">
-                        <label for="chk" aria-hidden="true">{lin}</label>
-                        <input type="text" name="username" placeholder="Username" required />
-                        <input class="text-red-500" type="password" name="password" placeholder="Password" required />
-                        <button>{lin}</button>
-                    </form>
-                    <h1><a href="/dashboard">test</a></h1>
-                </div>
+            <div class="signup">
+                <form action="?/register" method="post">
+                    <label for="chk" aria-hidden="true" class="decoration-white text-[2.3em] justify-center">{sup}</label>
+                    <input type="text" name="username" placeholder="Username" required />
+                    <input type="email" name="email" placeholder="Email" required />
+                    <input type="password" name="password" placeholder="Password" required />
+                    <input type="password" name="Cpswd" placeholder="Confirm-Password" required />
+                    <button>{sup}</button>
+                </form>
+            </div>
+
+            <div class="login">
+                <form action="?/login" method="post">
+                    <label for="chk" aria-hidden="true">{lin}</label>
+                    <input type="text" name="username" placeholder="Username" required />
+                    <input class="text-red-500" type="password" name="password" placeholder="Password" required />
+                    <button>{lin}</button>
+                </form>
+            </div>
         </div>
     </body>
 </main>
