@@ -4,36 +4,43 @@
     // export const logout = (locals) => {
     //     locals.pb.authStore.clear();
     // }
+    let lin ="Login";
+    let sup ="Sign Up";
+    
 </script>
 
 <main>
+
     <body>
         {#if data.user}
             <h1>Welcome {data.user.username}</h1>
             <form action="?/logout" method="post">
                 <button>Logout</button>
             </form>
+
         {:else}
             <div class="main">  	
-                <input type="checkbox" id="chk" aria-hidden="true">
+                <input type="checkbox" id="chk" aria-hidden="true" class="hidden">
         
                     <div class="signup">
                         <form action="?/register" method="post">
-                            <label for="chk" aria-hidden="true">Sign up</label>
+                            <label for="chk" aria-hidden="true" class="decoration-white text-[2.3em] justify-center">{sup}</label>
                             <input type="text" name="username" placeholder="Username" required />
                             <input type="email" name="email" placeholder="Email" required />
                             <input type="password" name="password" placeholder="Password" required />
-                            <button>Sign up</button>
+                            <input type="password" name="Cpswd" placeholder="Confirm-Password" required />
+                            <button>{sup}</button>
                         </form>
                     </div>
         
                     <div class="login">
                         <form action="?/login" method="post">
-                            <label for="chk" aria-hidden="true">Login</label>
+                            <label for="chk" aria-hidden="true">{lin}</label>
                             <input type="text" name="username" placeholder="Username" required />
-                            <input type="password" name="password" placeholder="Password" required />
-                            <button>Login</button>
+                            <input class="text-red-500" type="password" name="password" placeholder="Password" required />
+                            <button>{lin}</button>
                         </form>
+                        <h1><a href="/dashboard">test</a></h1>
                     </div>
             </div>
         {/if}
@@ -43,19 +50,18 @@
 
 <style>
     body{
-	margin: 0;
-	padding: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh;
-	font-family: 'Jost', sans-serif;
-	background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        font-family: 'Jost', sans-serif;
+        background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
     }
     .main{
         width: 350px;
         height: 500px;
-        background: red;
         overflow: hidden;
         background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
         border-radius: 10px;
