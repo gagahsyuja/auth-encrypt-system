@@ -102,7 +102,14 @@
         padding-top: 5%;
         padding-left: 4%;
         box-sizing: border-box;
+        font-weight: bold;
+        font-family: 'Jost', sans-serif;
     }
+
+    .card div{
+        font-size: 1.2em;
+    }
+    
     .textbox{
         background-color: #eee;
         padding: 9px;
@@ -117,8 +124,6 @@
     label{
         color: #fff;
         padding-left: 2%;
-        font-weight: bold;
-        font-family: 'Jost', sans-serif;
     }
 
     .con{
