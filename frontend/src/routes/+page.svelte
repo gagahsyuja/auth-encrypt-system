@@ -1,141 +1,22 @@
 <script lang="ts">
-    export let data;
+    import Auth from '$lib/auth.svelte';
+    import Dashboard from '$lib/dashboard.svelte';
+    import type { LayoutData } from './$types.js';
 
-    // export const logout = (locals) => {
-    //     locals.pb.authStore.clear();
-    // }
-    let lin ="Login";
-    let sup ="Sign Up";
-    
+    export let data: LayoutData;
 </script>
 
-<main>
+{#if data.errors}
+    <div class="absolute flex flex-col bg-blue-500 z-[150] w-[900px] h-[400px]">
+        <h1>{data.errors}</h1>
+        <form method="POST" action="?/close">
+            <button class="bg-red-500 w-1/2">Close</button>
+        </form>
+    </div>
+{/if}
 
-    <body>
-        {#if data.user}
-            <h1>Welcome {data.user.username}</h1>
-            <form action="?/logout" method="post">
-                <button>Logout</button>
-            </form>
-
-        {:else}
-            <div class="main">  	
-                <input type="checkbox" id="chk" aria-hidden="true" class="hidden">
-        
-                    <div class="signup">
-                        <form action="?/register" method="post">
-                            <label for="chk" aria-hidden="true" class="decoration-white text-[2.3em] justify-center">{sup}</label>
-                            <input type="text" name="username" placeholder="Username" required />
-                            <input type="email" name="email" placeholder="Email" required />
-                            <input type="password" name="password" placeholder="Password" required />
-                            <input type="password" name="Cpswd" placeholder="Confirm-Password" required />
-                            <button>{sup}</button>
-                        </form>
-                    </div>
-        
-                    <div class="login">
-                        <form action="?/login" method="post">
-                            <label for="chk" aria-hidden="true">{lin}</label>
-                            <input type="text" name="username" placeholder="Username" required />
-                            <input class="text-red-500" type="password" name="password" placeholder="Password" required />
-                            <button>{lin}</button>
-                        </form>
-                        <h1><a href="/dashboard">test</a></h1>
-                    </div>
-            </div>
-        {/if}
-    </body>
-</main>
-
-
-<style>
-    body{
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        font-family: 'Jost', sans-serif;
-        background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
-    }
-    .main{
-        width: 350px;
-        height: 500px;
-        overflow: hidden;
-        background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
-        border-radius: 10px;
-        box-shadow: 5px 20px 50px #000;
-    }
-    #chk{
-        display: none;
-    }
-    .signup{
-        position: relative;
-        width:100%;
-        height: 100%;
-    }
-    label{
-        color: #fff;
-        font-size: 2.3em;
-        justify-content: center;
-        display: flex;
-        margin: 50px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: .5s ease-in-out;
-    }
-    input{
-        width: 60%;
-        height: 10px;
-        background: #e0dede;
-        justify-content: center;
-        display: flex;
-        margin: 20px auto;
-        padding: 12px;
-        border: none;
-        outline: none;
-        border-radius: 5px;
-    }
-    button{
-        width: 60%;
-        height: 40px;
-        margin: 10px auto;
-        justify-content: center;
-        display: block;
-        color: #fff;
-        background: #573b8a;
-        font-size: 1em;
-        font-weight: bold;
-        margin-top: 30px;
-        outline: none;
-        border: none;
-        border-radius: 5px;
-        transition: .2s ease-in;
-        cursor: pointer;
-    }
-    button:hover{
-        background: #6d44b8;
-    }
-    .login{
-        height: 460px;
-        background: #eee;
-        border-radius: 60% / 10%;
-        transform: translateY(-180px);
-        transition: .8s ease-in-out;
-    }
-    .login label{
-        color: #573b8a;
-        transform: scale(.6);
-    }
-
-    #chk:checked ~ .login{
-        transform: translateY(-500px);
-    }
-    #chk:checked ~ .login label{
-        transform: scale(1);	
-    }
-    #chk:checked ~ .signup label{
-        transform: scale(.6);
-    }
-</style>
+{#if data.user}
+    <Dashboard userData={data} />
+{:else}
+    <Auth />
+{/if}

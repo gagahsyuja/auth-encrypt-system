@@ -1,12 +1,13 @@
 import PocketBase from 'pocketbase';
+import type { Handle } from '@sveltejs/kit';
 
-export const handle = async ({ event, resolve }) => {
+export const handle: Handle = async ({ event, resolve }) => {
 
     const url = 'http://127.0.0.1:8090';
 
     event.locals.pb = new PocketBase(url);
 
-    event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie')) || '';
+    event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
     const model = event.locals.pb.authStore.model;
 
     try {

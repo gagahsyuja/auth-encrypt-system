@@ -6,6 +6,7 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
+            errors: string;
             pb: PocketBase;
             user: AuthModel | null;
         }

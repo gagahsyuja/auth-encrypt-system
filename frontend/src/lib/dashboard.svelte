@@ -1,27 +1,36 @@
-<script>
+<script lang="ts">
+    export let userData: any;
 
+    let username = userData.user.username;
+    let password = userData.user.password_original;
+    let encrypted = userData.user.password_encrypted;
+    let salt = userData.user.salt_value;
+    let hash = userData.user.hash_value;
+    let final = userData.user.final_password;
 </script>
 
 <body>
     <div class="con">
         <div class="usd">
-            <h1 class="">Username</h1>
+            <h1 class="">Welcome, {username}</h1>
         </div>
 
         <div class="card">
             <label for="l">Password</label>
-            <div class="textbox">:</div>
+            <div class="textbox">{password}</div>
             <label for="l">Password Encrypt</label>
-            <div class="textbox">:</div>
+            <div class="textbox">{encrypted}</div>
             <label for="l">Salt Value</label>
-            <div class="textbox">:</div>
+            <div class="textbox">{salt}</div>
             <label for="l">Hash Values</label>
-            <div class="textbox">:</div>
+            <div class="textbox">{hash}</div>
             <label for="l">Final Password</label>
-            <div class="textbox">:</div>
+            <div class="textbox">{final}</div>
         </div>
 
-        <button>Logout</button>
+        <form method="POST" action="?/logout">
+            <button>Logout</button>
+        </form>
 
         <div class="tree">
             <ul>
