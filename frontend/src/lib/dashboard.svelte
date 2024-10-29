@@ -21,15 +21,15 @@
 
         <div class="card">
             <label for="l">Password</label>
-            <div class="textbox">{password}</div>
+            <div class="textbox">{ password ? password : "Not set" }</div>
             <label for="l">Password Encrypt</label>
-            <div class="textbox">{encrypted}</div>
+            <div class="textbox">{ encrypted ? encrypted : "Not set" }</div>
             <label for="l">Salt Value</label>
-            <div class="textbox">{salt}</div>
+            <div class="textbox">{ salt ? salt : "Not set" }</div>
             <label for="l">Hash Values</label>
-            <div class="textbox">{hash}</div>
+            <div class="textbox">{ hash ? hash : "Not set" }</div>
             <label for="l">Final Password</label>
-            <div class="textbox">{final}</div>
+            <div class="textbox">{ final ? final : "Not set" }</div>
         </div>
 
         <!-- <div class="tree"> -->
