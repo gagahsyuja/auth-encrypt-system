@@ -31,9 +31,7 @@ function getSalt(word: string): string {
         .map(letter => getCode(letter))
         .join('');
 
-    let random = randomBytes(16).toString('hex');
-
-    return reversed + letterCodes + random;
+    return reversed + letterCodes;
 }
 
 export const actions = {
@@ -52,7 +50,7 @@ export const actions = {
 
         let hash_value = CryptoJS.SHA256(password).toString();
 
-        let salt_value = randomBytes(16).toString('hex');
+        let salt_value = getSalt(username);
 
         let password_encrypted = CryptoJS.AES.encrypt(password, salt_value).toString();
 
