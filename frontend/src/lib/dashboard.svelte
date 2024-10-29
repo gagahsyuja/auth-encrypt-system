@@ -121,6 +121,7 @@
         font-family: 'Jost', sans-serif;
         /* width: 635px; */
         border-radius: 10px;
+        overflow: scroll;
     }
     label{
         color: #fff;
