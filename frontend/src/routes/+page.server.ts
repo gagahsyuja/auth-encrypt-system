@@ -83,6 +83,7 @@ export const actions = {
         const formData = await request.formData();
         const username = formData.get('username') as string;
         const password = formData.get('password') as string;
+        let salt_value = getSalt(username);
 
         locals.pb.authStore.clear();
 
@@ -97,7 +98,7 @@ export const actions = {
         }
 
         if (user) {
-            let final_password = CryptoJS.SHA256(user.salt_value + password).toString();
+            let final_password = CryptoJS.SHA256(salt_value + password).toString();
 
             if (user.final_password === final_password) {
                 await locals.pb.collection('users').authWithPassword(username, password);
