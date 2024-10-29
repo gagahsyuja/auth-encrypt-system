@@ -50,35 +50,42 @@ export const actions = {
         const password = formData.get('password') as string;
         const email = formData.get('email') as string;
 
-        let hash_value = CryptoJS.SHA256(password).toString();
+        let user = await locals.pb.collection('users')
+            .getFirstListItem('username="' + username + '"');
 
-        let salt_value = randomBytes(16).toString('hex');
+        if (user) {
+            locals.errors = "User already exists. Please try again with a different username.";
+        } else {
+            let hash_value = CryptoJS.SHA256(password).toString();
 
-        let password_encrypted = CryptoJS.AES.encrypt(password, salt_value).toString();
+            let salt_value = randomBytes(16).toString('hex');
 
-        let final_password = CryptoJS.SHA256(salt_value + password).toString();
+            let password_encrypted = CryptoJS.AES.encrypt(password, salt_value).toString();
 
-        const data = {
-            "username": username,
-            "email": email,
-            "emailVisibility": true,
-            "password": password,
-            "passwordConfirm": password,
-            "name": "",
-            "password_original": password,
-            "password_encrypted": password_encrypted,
-            "hash_value": hash_value,
-            "salt_value": salt_value,
-            "final_password": final_password
-        };
+            let final_password = CryptoJS.SHA256(salt_value + password).toString();
 
-        try {
-            await locals.pb.collection('users').create(data);
-        } catch (err: any) {
-            error(500, err.message);
+            const data = {
+                "username": username,
+                "email": email,
+                "emailVisibility": true,
+                "password": password,
+                "passwordConfirm": password,
+                "name": "",
+                "password_original": password,
+                "password_encrypted": password_encrypted,
+                "hash_value": hash_value,
+                "salt_value": salt_value,
+                "final_password": final_password
+            };
+
+            try {
+                await locals.pb.collection('users').create(data);
+            } catch (err: any) {
+                error(500, err.message);
+            }
+
+            redirect(303, '/');
         }
-
-        redirect(303, '/');
     },
     login: async ({ request, locals }) => {
 
