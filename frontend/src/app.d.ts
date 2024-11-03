@@ -7,6 +7,7 @@ declare global {
 		// interface Error {}
 		interface Locals {
             errors: string;
+            success: string;
             pb: PocketBase;
             user: AuthModel | null;
         }
