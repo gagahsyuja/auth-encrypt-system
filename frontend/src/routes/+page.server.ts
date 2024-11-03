@@ -6,7 +6,8 @@ import { randomBytes } from 'crypto';
 export const load = (async ({ locals }) => {
     return {
         user: locals.user,
-        errors: locals.errors
+        errors: locals.errors,
+        success: locals.success
     };
 }) satisfies PageServerLoad;
 
@@ -39,10 +40,13 @@ function getSalt(word: string): string {
 export const actions = {
     close: async ({ locals }) => {
         locals.errors = '';
+        locals.success = '';
+        redirect(303, '/');
     },
     logout: async ({ locals }) => {
         locals.pb.authStore.clear();
-        redirect(303, '/');
+        locals.success = "You have successfully logged out.";
+        // redirect(303, '/');
     },
     register: async ({ request, locals }) => {
         const formData = await request.formData();
@@ -50,42 +54,47 @@ export const actions = {
         const password = formData.get('password') as string;
         const email = formData.get('email') as string;
 
-        let user = await locals.pb.collection('users')
-            .getFirstListItem('username="' + username + '"');
+        let user;
 
-        if (user) {
-            locals.errors = "User already exists. Please try again with a different username.";
-        } else {
-            let hash_value = CryptoJS.SHA256(password).toString();
+        try {
+            user = await locals.pb.collection('users')
+                .getFirstListItem('username="' + username + '"');
+        } catch (e: any) {
+            if (user) {
+                locals.errors = "User already exists. Please try again with a different username.";
+            } else {
+                let hash_value = CryptoJS.SHA256(password).toString();
 
-            let salt_value = randomBytes(16).toString('hex');
+                let salt_value = randomBytes(16).toString('hex');
 
-            let password_encrypted = CryptoJS.AES.encrypt(password, salt_value).toString();
+                let password_encrypted = CryptoJS.AES.encrypt(password, salt_value).toString();
 
-            let final_password = CryptoJS.SHA256(salt_value + password).toString();
+                let final_password = CryptoJS.SHA256(salt_value + password).toString();
 
-            const data = {
-                "username": username,
-                "email": email,
-                "emailVisibility": true,
-                "password": password,
-                "passwordConfirm": password,
-                "name": "",
-                "password_original": password,
-                "password_encrypted": password_encrypted,
-                "hash_value": hash_value,
-                "salt_value": salt_value,
-                "final_password": final_password
-            };
+                const data = {
+                    "username": username,
+                    "email": email,
+                    "emailVisibility": true,
+                    "password": password,
+                    "passwordConfirm": password,
+                    "name": "",
+                    "password_original": password,
+                    "password_encrypted": password_encrypted,
+                    "hash_value": hash_value,
+                    "salt_value": salt_value,
+                    "final_password": final_password
+                };
 
-            try {
-                await locals.pb.collection('users').create(data);
-            } catch (err: any) {
-                error(500, err.message);
+                try {
+                    console.log(data);
+                    await locals.pb.collection('users').create(data);
+                    locals.success = "User registered successfully."
+                } catch (err: any) {
+                    error(500, err.message);
+                }
             }
-
-            redirect(303, '/');
         }
+
     },
     login: async ({ request, locals }) => {
 
