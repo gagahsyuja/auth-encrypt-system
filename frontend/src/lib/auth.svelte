@@ -11,10 +11,10 @@
             <div class="signup">
                 <form action="?/register" method="post">
                     <label for="chk" aria-hidden="true" class="decoration-white text-[2.3em] justify-center">{sup}</label>
-                    <input type="text" name="username" placeholder="Username" required />
+                    <input minLength="5" type="text" name="username" placeholder="Username" required />
                     <input type="email" name="email" placeholder="Email" required />
                     <input type="password" name="password" placeholder="Password" required />
-                    <input type="password" name="Cpswd" placeholder="Confirm-Password" required />
+                    <input minLength="5" type="password" name="Cpswd" placeholder="Confirm-Password" required />
                     <button>{sup}</button>
                 </form>
             </div>
@@ -23,7 +23,7 @@
                 <form action="?/login" method="post">
                     <label for="chk" aria-hidden="true">{lin}</label>
                     <input type="text" name="username" placeholder="Username" required />
-                    <input type="password" name="password" placeholder="Password" required />
+                    <input minLength="5" type="password" name="password" placeholder="Password" required />
                     <button>{lin}</button>
                 </form>
             </div>
