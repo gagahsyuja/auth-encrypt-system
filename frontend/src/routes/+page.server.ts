@@ -55,43 +55,54 @@ export const actions = {
         const email = formData.get('email') as string;
 
         let user;
+        let userEmail;
 
         try {
             user = await locals.pb.collection('users')
                 .getFirstListItem('username="' + username + '"');
-        } catch (e: any) {
-            if (user) {
-                locals.errors = "User already exists. Please try again with a different username.";
-            } else {
-                let hash_value = CryptoJS.SHA256(password).toString();
 
-                let salt_value = randomBytes(16).toString('hex');
+        } catch {
+            // Ignore error
+        }
 
-                let password_encrypted = CryptoJS.AES.encrypt(password, salt_value).toString();
+        try {
+            userEmail = await locals.pb.collection('users')
+                .getFirstListItem('email="' + email + '"');
+        } catch {
+            // Ignore error
+        }
 
-                let final_password = CryptoJS.SHA256(salt_value + password).toString();
+        if (user || userEmail) {
+            locals.errors = "User or Email already exists. Please try again with a different username.";
+        } else {
+            let hash_value = CryptoJS.SHA256(password).toString();
 
-                const data = {
-                    "username": username,
-                    "email": email,
-                    "emailVisibility": true,
-                    "password": password,
-                    "passwordConfirm": password,
-                    "name": "",
-                    "password_original": password,
-                    "password_encrypted": password_encrypted,
-                    "hash_value": hash_value,
-                    "salt_value": salt_value,
-                    "final_password": final_password
-                };
+            let salt_value = randomBytes(16).toString('hex');
 
-                try {
-                    console.log(data);
-                    await locals.pb.collection('users').create(data);
-                    locals.success = "User registered successfully."
-                } catch (err: any) {
-                    error(500, err.message);
-                }
+            let password_encrypted = CryptoJS.AES.encrypt(password, salt_value).toString();
+
+            let final_password = CryptoJS.SHA256(salt_value + password).toString();
+
+            const data = {
+                "username": username,
+                "email": email,
+                "emailVisibility": true,
+                "password": password,
+                "passwordConfirm": password,
+                "name": "",
+                "password_original": password,
+                "password_encrypted": password_encrypted,
+                "hash_value": hash_value,
+                "salt_value": salt_value,
+                "final_password": final_password
+            };
+
+            try {
+                console.log(data);
+                await locals.pb.collection('users').create(data);
+                locals.success = "User registered successfully."
+            } catch (err: any) {
+                error(500, err.message);
             }
         }
 
